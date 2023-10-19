@@ -84,11 +84,6 @@
           <Title>8051 Instruction Set Manual</Title>
           <Path>DATASHTS\INTEL\ISM51.PDF</Path>
         </Book>
-        <Book>
-          <Number>1</Number>
-          <Title>Data Sheet</Title>
-          <Path>DATASHTS\INTEL\80XXAH_DS.PDF</Path>
-        </Book>
       </Books>
       <DebugOpt>
         <uSim>1</uSim>
@@ -131,8 +126,8 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>DLGDP51</Key>
-          <Name>(98=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(84=-1,-1,-1,-1,0)(85=-1,-1,-1,-1,0)(80=-1,-1,-1,-1,0)(91=879,210,1089,485,1)(92=-1,-1,-1,-1,0)</Name>
+          <Key>DLGDC51</Key>
+          <Name>(94=-1,-1,-1,-1,0)(80=-1,-1,-1,-1,0)(81=-1,-1,-1,-1,0)(82=-1,-1,-1,-1,0)(83=-1,-1,-1,-1,0)(1200=-1,-1,-1,-1,0)(90=-1,-1,-1,-1,0)(91=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>

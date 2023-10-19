@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj" 
+TO ".\Objects\exerc2" 
+PRINT(".\Listings\exerc2.m51")
