@@ -1,0 +1,56 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              10/19/2023 15:45:54 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          void c51_tmr0 (void);
+   4          unsigned char state = 0;
+   5          
+   6          void main (void) {
+   7   1        unsigned char code mensagem[]= "Microcontrolador";
+   8   1        unsigned char code *ponteiro;
+   9   1        unsigned char aux = 0;
+  10   1        
+  11   1        ponteiro = mensagem;
+  12   1        TMOD = 0X01;
+  13   1        TH0 = 0xFF;
+  14   1        TL0 = 0x9C;
+  15   1        ET0 = 1;
+  16   1        EA = 1; // interrupção habilitada
+  17   1        TR0 = 1 ; // dispara timer
+  18   1        
+  19   1        while (1) {
+  20   2          while (state != 1);
+  21   2          state = 0;
+  22   2          P1 = *(ponteiro+aux++);
+  23   2          if (aux == 16) aux = 0;
+  24   2        } // end of while
+  25   1        
+  26   1      } //end of main
+  27          
+  28          void c51_tmr0 (void) interrupt 1 {
+  29   1        TL0 = 0x9C;
+  30   1        TH0 = 0xFF;
+  31   1        state++;
+  32   1      } //end of c51_tmr0
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     60    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
