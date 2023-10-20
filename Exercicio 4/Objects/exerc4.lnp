@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj" 
+TO ".\Objects\exerc4" 
+PRINT(".\Listings\exerc4.m51")
