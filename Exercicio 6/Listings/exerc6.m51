@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    10/20/2023  14:53:30  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    10/20/2023  15:27:16  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
@@ -31,10 +31,10 @@ LINK MAP OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
             CODE    000BH     0003H     ABSOLUTE     
                     000EH     07F2H                  *** GAP ***
             CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     0043H     UNIT         ?PR?MAIN?MIAN
-            CODE    08CFH     0009H     UNIT         ?PR?C51_TMR0?MIAN
-            CODE    08D8H     0004H     UNIT         ?C_INITSEG
-            CODE    08DCH     0001H     UNIT         ?CO?MIAN
+            CODE    088CH     002EH     UNIT         ?PR?MAIN?MIAN
+            CODE    08BAH     0009H     UNIT         ?PR?C51_TMR0?MIAN
+            CODE    08C3H     0004H     UNIT         ?C_INITSEG
+            CODE    08C7H     0001H     UNIT         ?CO?MIAN
 
 
 
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  14:53:30  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  15:27:16  PAGE 2
 
 
   C:0800H         SEGMENT       ?C_C51STARTUP
@@ -101,7 +101,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
   B:00A8H.7       PUBLIC        EA
   D:0008H         PUBLIC        state
   C:088CH         PUBLIC        main
-  C:08CFH         PUBLIC        c51_tmr0
+  C:08BAH         PUBLIC        c51_tmr0
   D:0089H         PUBLIC        TMOD
   B:00A8H.1       PUBLIC        ET0
   D:008CH         PUBLIC        TH0
@@ -109,35 +109,35 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
   B:0088H.4       PUBLIC        TR0
   -------         PROC          MAIN
   -------         DO            
-  C:08DCH         SYMBOL        mensagem
+  C:08C7H         SYMBOL        mensagem
   -------         ENDDO         
-  C:088CH         LINE#         7
-  C:088CH         LINE#         10
-  C:088FH         LINE#         11
-  C:0892H         LINE#         12
-  C:0895H         LINE#         13
-  C:0897H         LINE#         14
-  C:0899H         LINE#         15
+  C:088CH         LINE#         6
+  C:088CH         LINE#         9
+  C:088FH         LINE#         10
+  C:0892H         LINE#         11
+  C:0895H         LINE#         12
+  C:0897H         LINE#         13
+  C:0899H         LINE#         14
+  C:089BH         LINE#         16
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  15:27:16  PAGE 3
+
+
   C:089BH         LINE#         17
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  14:53:30  PAGE 3
-
-
-  C:089BH         LINE#         18
-  C:08C5H         LINE#         19
-  C:08CDH         LINE#         20
+  C:08B0H         LINE#         18
+  C:08B8H         LINE#         19
   -------         ENDPROC       MAIN
   -------         PROC          C51_TMR0
-  C:08CFH         LINE#         24
-  C:08CFH         LINE#         25
-  C:08D2H         LINE#         26
-  C:08D5H         LINE#         27
-  C:08D7H         LINE#         28
+  C:08BAH         LINE#         23
+  C:08BAH         LINE#         24
+  C:08BDH         LINE#         25
+  C:08C0H         LINE#         26
+  C:08C2H         LINE#         27
   -------         ENDPROC       C51_TMR0
   -------         ENDMOD        MIAN
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0062H BYTE ( 4%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 004DH BYTE ( 3%) *
 ******************************************************************************
 
-Program Size: data=10.0 xdata=0 code=227
+Program Size: data=10.0 xdata=0 code=206
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

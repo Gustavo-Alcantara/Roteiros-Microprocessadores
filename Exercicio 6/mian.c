@@ -3,7 +3,6 @@
 void c51_tmr0 (void);
 unsigned char state = 0;
 
-
 void main (void) {
 	unsigned char code mensagem = 0xAA;
 	
@@ -15,14 +14,14 @@ void main (void) {
 	TR0 = 1 ; // dispara timer
 	
 	while (1) {
-		P1 = (mensagem & (1<<state)) >> state;
-		if(state == 7) state = 0;
+		P1 = ((mensagem >> state) & 1);
+		if(state == 8) state = 0;
 	} // end of while
 	
 } //end of main
 
 void c51_tmr0 (void) interrupt 1 {
-	TL0 = 0x9C;
-	TH0 = 0xFF;
+	TH0 = 0xEA;
+	TL0 = 0x60;
 	state++;
 } //end of c51_tmr0
