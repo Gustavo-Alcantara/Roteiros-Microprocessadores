@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    10/19/2023  15:45:54  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    10/24/2023  15:33:42  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
@@ -27,14 +27,14 @@ LINK MAP OF MODULE:  .\Objects\exerc0 (?C_STARTUP)
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-                    0003H     0008H                  *** GAP ***
-            CODE    000BH     0003H     ABSOLUTE     
-                    000EH     07F2H                  *** GAP ***
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
             CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     0033H     UNIT         ?PR?MAIN?MAIN
-            CODE    08BFH     0011H     UNIT         ?CO?MAIN
-            CODE    08D0H     0009H     UNIT         ?PR?C51_TMR0?MAIN
-            CODE    08D9H     0004H     UNIT         ?C_INITSEG
+            CODE    088CH     003BH     UNIT         ?PR?MAIN?MAIN
+            CODE    08C7H     0011H     UNIT         ?CO?MAIN
+            CODE    08D8H     0009H     UNIT         ?PR?SERIAL?MAIN
+            CODE    08E1H     0004H     UNIT         ?C_INITSEG
 
 
 
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc0 (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/19/2023  15:45:54  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/24/2023  15:33:42  PAGE 2
 
 
   C:0800H         SEGMENT       ?C_C51STARTUP
@@ -97,53 +97,56 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc0 (?C_STARTUP)
 
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0090H         PUBLIC        P1
+  C:08D8H         PUBLIC        serial
   B:00A8H.7       PUBLIC        EA
+  B:00A8H.4       PUBLIC        ES
+  B:0098H.1       PUBLIC        TI
   D:0008H         PUBLIC        state
   C:088CH         PUBLIC        main
-  C:08D0H         PUBLIC        c51_tmr0
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
-  B:00A8H.1       PUBLIC        ET0
-  D:008CH         PUBLIC        TH0
-  D:008AH         PUBLIC        TL0
-  B:0088H.4       PUBLIC        TR0
+  D:008DH         PUBLIC        TH1
+  B:0088H.6       PUBLIC        TR1
   -------         PROC          MAIN
   -------         DO            
-  C:08BFH         SYMBOL        mensagem
+  C:08C7H         SYMBOL        mensagem
   D:0004H         SYMBOL        ponteiro
   D:0007H         SYMBOL        aux
   -------         ENDDO         
   C:088CH         LINE#         6
   C:088CH         LINE#         9
   C:088EH         LINE#         11
-  C:0892H         LINE#         12
-  C:0895H         LINE#         13
-  C:0898H         LINE#         14
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/19/2023  15:45:54  PAGE 3
+  C:0892H         LINE#         13
+  C:0895H         LINE#         14
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/24/2023  15:33:42  PAGE 3
 
 
-  C:089BH         LINE#         15
-  C:089DH         LINE#         16
-  C:089FH         LINE#         17
+  C:0898H         LINE#         15
+  C:089BH         LINE#         16
+  C:089DH         LINE#         17
   C:08A1H         LINE#         19
-  C:08A1H         LINE#         20
-  C:08A6H         LINE#         21
-  C:08A9H         LINE#         22
-  C:08B8H         LINE#         23
-  C:08BDH         LINE#         24
+  C:08A8H         LINE#         21
+  C:08A9H         LINE#         23
+  C:08A9H         LINE#         24
+  C:08AEH         LINE#         25
+  C:08B1H         LINE#         26
+  C:08C0H         LINE#         27
+  C:08C5H         LINE#         28
   -------         ENDPROC       MAIN
-  -------         PROC          C51_TMR0
-  C:08D0H         LINE#         28
-  C:08D0H         LINE#         29
-  C:08D3H         LINE#         30
-  C:08D6H         LINE#         31
-  C:08D8H         LINE#         32
-  -------         ENDPROC       C51_TMR0
+  -------         PROC          SERIAL
+  C:08D8H         LINE#         30
+  C:08D8H         LINE#         31
+  C:08DBH         LINE#         32
+  C:08DDH         LINE#         33
+  C:08E0H         LINE#         34
+  C:08E0H         LINE#         35
+  -------         ENDPROC       SERIAL
   -------         ENDMOD        MAIN
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0062H BYTE ( 4%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 006AH BYTE ( 5%) *
 ******************************************************************************
 
-Program Size: data=10.0 xdata=0 code=227
+Program Size: data=10.0 xdata=0 code=235
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

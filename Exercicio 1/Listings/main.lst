@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              10/19/2023 16:11:47 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              11/01/2023 15:06:44 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -10,40 +10,46 @@ line level    source
 
    1          #include <reg51.h>
    2          
-   3          void c51_tmr0 (void);
-   4          unsigned char state = 0;
-   5          
-   6          void main (void) {
-   7   1        unsigned char code mensagem[]= "Microcontrolador";
-   8   1        unsigned char code *ponteiro;
-   9   1        unsigned char aux = 0;
-  10   1        
-  11   1        ponteiro = mensagem;
-  12   1        TMOD = 0X01;
-  13   1        TH0 = 0xFF;
-  14   1        TL0 = 0x60;
-  15   1        ET0 = 1;
-  16   1        EA = 1; // interrup??o habilitada
-  17   1        TR0 = 1 ; // dispara timer
-  18   1        
-  19   1        while (1) {
-  20   2          while (state != 4);
-  21   2          state = 0;
-  22   2          P1 = *(ponteiro+aux++);
-  23   2          if (aux == 16) aux = 0;
-  24   2        } // end of while
-  25   1        
-  26   1      } //end of main
-  27          
-  28          void c51_tmr0 (void) interrupt 1 {
-  29   1        TL0 = 0x60;
-  30   1        TH0 = 0xFF;
-  31   1        state++;
-  32   1      } //end of c51_tmr0
+   3          void serial(void); // prot?tipo de fun??o
+   4          
+   5          unsigned char state = 0;
+   6          
+   7          void main (void) {
+   8   1      unsigned char code mensagem[]= "Microcontrolador";
+   9   1      unsigned char code *ponteiro;
+  10   1      unsigned char aux = 1;
+  11   1      
+  12   1                  ponteiro=mensagem;
+  13   1                  SCON = 0xC0; // 1100 0000B -- SCON: modo 3, 9-bit
+  14   1                  TMOD = 0x20; // 0010 0000B => TMOD: timer 1, modo 2
+  15   1                  TH1 = 0xFD; // TH1: valor de recarga para 9600 baud; clk = 11,059 MHz
+  16   1                  TR1 = 1; // TR1: dispara timer
+  17   1                  ES = 1;
+  18   1                  EA = 1; // habilita interrupcao serial
+  19   1                  ACC = *ponteiro; // envia 'M'
+  20   1                  TB8 = P;
+  21   1                  SBUF = ACC;
+  22   1        
+  23   1                  while (1) {
+  24   2                          while (state != 1); // aguarda interrup??o serial
+  25   2                          state = 0; // indica atendimento interrupcao serial
+  26   2                          ACC = *(ponteiro+aux++);
+  27   2                          TB8 = P;
+  28   2                          SBUF = ACC;
+  29   2                          if (aux == 16) aux = 0;
+  30   2                  } // end of while
+  31   1                  } // end of main
+  32                      
+  33          void serial(void) interrupt 4 { // especifica tratador de interrup??o serial (4)
+  34   1              if (TI) { // testa se buffer de transmiss?o vazio
+  35   2                                        TI=0; // limpa flag
+  36   2                                        state = 1;
+  37   2              } // end of if
+  38   1      } // end of serial
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     60    ----
+   CODE SIZE        =     76    ----
    CONSTANT SIZE    =     17    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
