@@ -1,4 +1,0 @@
-".\Objects\STARTUP.obj",
-".\Objects\main.obj" 
-TO ".\Objects\exerc3" 
-PRINT(".\Listings\exerc3.m51")

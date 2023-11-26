@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.7.0   MAIN                                                              10/24/2023 15:33:42 PAGE 1   
+C51 COMPILER V9.60.7.0   MAIN                                                              11/26/2023 15:00:22 PAGE 1   
 
 
 C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
@@ -9,48 +9,52 @@ COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE 
 line level    source
 
    1          #include <reg51.h>
-   2          
-   3          void serial(void); // protótipo de função
-   4          unsigned char state = 0;
-   5          
-   6          void main (void) {
-   7   1        unsigned char code mensagem[]= "Microcontrolador";
-   8   1        unsigned char code *ponteiro;
-   9   1        unsigned char aux = 0;
-  10   1        
-  11   1        ponteiro=mensagem;
-  12   1        
-  13   1        SCON = 0x40; // SCON: modo 1, 8-bit
-  14   1        TMOD |= 0x20; // TMOD: timer 1, modo 2
-  15   1        TH1 = 0xFD; // TH1: valor de recarga para 9600 baud; clk = 11,059 MHz
-  16   1        TR1 = 1; // TR1: dispara timer
-  17   1        ES = 1; EA = 1; // habilita interrupcao serial
-  18   1        
-  19   1        SBUF = *ponteiro; // envia µM'
-  20   1        
-  21   1        aux++;
-  22   1        
-  23   1        while (1) {
-  24   2          while (state != 1); // aguarda interrupção serial
-  25   2          state = 0; // indica atendimento interrupcao serial
-  26   2          SBUF = *(ponteiro+aux++);
-  27   2          if (aux == 16) aux = 0;
-  28   2        } // end of while
-  29   1      } // end of main
-  30          void serial(void) interrupt 4 { // especifica tratador de interrupção serial (4)
-  31   1        if (TI) { // testa se buffer de transmissão vazio
-  32   2          TI=0; // limpa flag
-  33   2          state = 1;
-  34   2        } // end of if
-  35   1      } // end of serial
+   2          #define TC_MODO_0 0x00
+   3          #define TC_MODO_1 0x01
+   4          #define TC_MODO_2 0x02
+   5          #define TC_MODO_3 0x03
+   6          #define TC_TMR 0x00
+   7          #define TC_CNT 0x04
+   8          #define TC_GATE_LOW 0x00
+   9          #define TC_GATE_HIGH 0x08
+  10          
+  11          struct TmodInitStruct { char mode; char cntr_tmr; char gate; } Timer0, Timer1 ;
+  12          // funÃ§Ã£o para inicializar Timers 0 (modo 1) e 1 (modo 2) como timers
+  13          void InitTimerFunction (void) {
+  14   1        char temp;
+  15   1        Timer1.mode = TC_MODO_2;
+  16   1        Timer1.cntr_tmr = TC_TMR;
+  17   1        Timer1.gate = TC_GATE_LOW;
+  18   1        temp = (Timer1.mode | Timer1.cntr_tmr | Timer1.gate) << 4;
+  19   1        Timer0.mode = TC_MODO_1;
+  20   1        Timer0.cntr_tmr = TC_CNT;
+  21   1        Timer0.gate = TC_GATE_HIGH;
+  22   1        TMOD = temp | (Timer0.mode | Timer0.cntr_tmr | Timer0.gate);
+  23   1      }
+  24          // OBS: para rodar o hex gerado no Edsim 2.1.20, fazer update freq = 100
+  25          void main (void) {
+  26   1        char dado_P1 = 0x80;
+  27   1        // inicializaÃ§Ã£o dos Timers 0 e 1 como timers nos modos 1 e 2, respectivamente
+  28   1        InitTimerFunction();
+  29   1        // estabelece valor de recarga -- inicia contagem do Timer 1
+  30   1        TL1 = 6;
+  31   1        TH1 = 6;
+  32   1        TR1 = 1;
+  33   1        // complementa nÃ­vel lÃ³gico de P1.7 (pisca led) a cada final de contagem
+  34   1        while (1) {
+  35   2          while (!TF1); // polling
+  36   2          TF1 = 0;
+  37   2          P1 = P1^dado_P1;
+  38   2        }
+  39   1      } // end of main
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     68    ----
-   CONSTANT SIZE    =     17    ----
+   CODE SIZE        =     60    ----
+   CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      1    ----
+   DATA SIZE        =      6    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

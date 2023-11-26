@@ -1,4 +1,0 @@
-".\Objects\STARTUP.obj",
-".\Objects\mian.obj" 
-TO ".\Objects\exerc6" 
-PRINT(".\Listings\exerc6.m51")

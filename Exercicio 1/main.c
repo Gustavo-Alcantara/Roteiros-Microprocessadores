@@ -1,38 +1,52 @@
 #include <reg51.h>
 
-void serial(void); // prot?tipo de fun??o
+#define SR_MODO_0           0x00
+#define SR_MODO_1           0x40
+#define SR_MODO_2           0x80
+#define SR_MODO_3           0xC0
 
-unsigned char state = 0;
+#define SR_RECEIVING_HIGH   0x10
+#define SR_RECEIVING_LOW    0x00
 
-void main (void) {
-unsigned char code mensagem[]= "Microcontrolador";
-unsigned char code *ponteiro;
-unsigned char aux = 1;
+#define SR_MULTI_HIGH       0x20
+#define SR_MULTI_LOW        0x00
 
-						ponteiro=mensagem;
-						SCON = 0xC0; // 1100 0000B -- SCON: modo 3, 9-bit
-						TMOD = 0x20; // 0010 0000B => TMOD: timer 1, modo 2
-						TH1 = 0xFD; // TH1: valor de recarga para 9600 baud; clk = 11,059 MHz
-						TR1 = 1; // TR1: dispara timer
-						ES = 1;
-						EA = 1; // habilita interrupcao serial
-						ACC = *ponteiro; // envia 'M'
-						TB8 = P;
-						SBUF = ACC;
+#define SR_TRANS_BIT_HIGH   0x04
+#define SR_TRANS_BIT_LOW    0x00
+
+#define SR_REC_BIT_HIGH     0x08
+#define SR_REC_BIT_LOW      0x00
+
+#define SR_SMOD_HIGH        0xC0
+#define SR_SMOD_LOW         0x00
+
+
+struct SconInitStruct{ char mode; char receiving; char multiprocessing; 
+                       char rec_ninth; char trans_ninth; char reload_val; 
+                       char smod; char timer1_mode;} Serial;
+
+void InitSerialFunction(void){
+	Serial.mode = SR_MODO_1;
+	Serial.receiving = SR_RECEIVING_LOW;
+	Serial.multiprocessing = SR_MULTI_LOW;
+	Serial.trans_ninth = SR_TRANS_BIT_LOW;
+	Serial.rec_ninth = SR_REC_BIT_LOW;
+	Serial.smod = SR_SMOD_HIGH;
+	SCON = Serial.mode|Serial.receiving|Serial.multiprocessing|Serial.trans_ninth|Serial.rec_ninth;
 	
-						while (1) {
-										while (state != 1); // aguarda interrup??o serial
-										state = 0; // indica atendimento interrupcao serial
-										ACC = *(ponteiro+aux++);
-										TB8 = P;
-										SBUF = ACC;
-										if (aux == 16) aux = 0;
-						} // end of while
-						} // end of main
-						
-void serial(void) interrupt 4 { // especifica tratador de interrup??o serial (4)
-				if (TI) { // testa se buffer de transmiss?o vazio
-																	TI=0; // limpa flag
-																	state = 1;
-				} // end of if
-} // end of serial
+	PCON = Serial.smod;
+	
+	Serial.reload_val = 0xFD;
+	Serial.timer1_mode = 0x20;
+	TMOD = Serial.timer1_mode;
+	TH1 = Serial.reload_val;
+	TR1 = 1;
+	
+	
+}
+
+void main(void){
+	InitSerialFunction();
+	while(1);
+	
+}
