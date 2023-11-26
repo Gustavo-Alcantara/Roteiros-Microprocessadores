@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    10/20/2023  11:10:35  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/06/2023  15:29:30  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
@@ -22,22 +22,18 @@ LINK MAP OF MODULE:  .\Objects\exerc4 (?C_STARTUP)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0001H     UNIT         ?DT?MAIN
-            IDATA   0009H     0001H     UNIT         ?STACK
+            DATA    0008H     0007H     UNIT         ?DT?MAIN
+            IDATA   000FH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-                    0003H     0008H                  *** GAP ***
-            CODE    000BH     0003H     ABSOLUTE     
-                    000EH     0005H                  *** GAP ***
-            CODE    0013H     0003H     ABSOLUTE     
-                    0016H     07EAH                  *** GAP ***
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
             CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     0037H     UNIT         ?PR?MAIN?MAIN
-            CODE    08C3H     0011H     UNIT         ?CO?MAIN
-            CODE    08D4H     0004H     UNIT         ?PR?C51_INT1?MAIN
-            CODE    08D8H     0004H     UNIT         ?C_INITSEG
-            CODE    08DCH     0003H     UNIT         ?PR?C51_TMR0?MAIN
+            CODE    088CH     002CH     UNIT         ?PR?MAIN?MAIN
+            CODE    08B8H     0028H     UNIT         ?PR?SERIAL?MAIN
+            CODE    08E0H     0007H     UNIT         ?C_INITSEG
 
 
 
@@ -51,24 +47,21 @@ SEGMENT
   +--> ?PR?MAIN?MAIN
   +--> ?C_INITSEG
 
-?PR?MAIN?MAIN
-  +--> ?CO?MAIN
-
 
 
 SYMBOL TABLE OF MODULE:  .\Objects\exerc4 (?C_STARTUP)
 
   VALUE           TYPE          NAME
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  11:10:35  PAGE 2
-
-
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
   C:0800H         SEGMENT       ?C_C51STARTUP
-  I:0009H         SEGMENT       ?STACK
+  I:000FH         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/06/2023  15:29:30  PAGE 2
+
+
   D:00F0H         SYMBOL        B
   D:0083H         SYMBOL        DPH
   D:0082H         SYMBOL        DPL
@@ -100,62 +93,64 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc4 (?C_STARTUP)
 
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0090H         PUBLIC        P1
-  D:00A0H         PUBLIC        P2
+  C:08B8H         PUBLIC        serial
   B:00A8H.7       PUBLIC        EA
+  B:00A8H.4       PUBLIC        ES
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
   D:0008H         PUBLIC        state
   C:088CH         PUBLIC        main
-  C:08D4H         PUBLIC        c51_int1
-  C:08DCH         PUBLIC        c51_tmr0
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
-  B:00A8H.1       PUBLIC        ET0
-  D:008CH         PUBLIC        TH0
-  B:00A8H.2       PUBLIC        EX1
-  B:0088H.2       PUBLIC        IT1
-  D:008AH         PUBLIC        TL0
-  B:0088H.4       PUBLIC        TR0
+  D:008DH         PUBLIC        TH1
+  D:0009H         PUBLIC        mensagem
+  B:0088H.6       PUBLIC        TR1
+  B:0098H.4       PUBLIC        REN
+  D:000EH         PUBLIC        k
   -------         PROC          MAIN
   -------         DO            
-  C:08C3H         SYMBOL        mensagem
-  D:0004H         SYMBOL        ponteiro
   D:0007H         SYMBOL        aux
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  11:10:35  PAGE 3
-
-
   -------         ENDDO         
-  C:088CH         LINE#         7
-  C:088CH         LINE#         10
-  C:088EH         LINE#         12
-  C:0892H         LINE#         13
-  C:0895H         LINE#         15
-  C:0898H         LINE#         16
-  C:089BH         LINE#         18
-  C:089DH         LINE#         20
-  C:089FH         LINE#         21
-  C:08A1H         LINE#         23
-  C:08A3H         LINE#         25
-  C:08A5H         LINE#         27
-  C:08A5H         LINE#         28
-  C:08AAH         LINE#         29
-  C:08ADH         LINE#         30
-  C:08BCH         LINE#         31
-  C:08C1H         LINE#         32
+  C:088CH         LINE#         8
+  C:088CH         LINE#         9
+  C:088EH         LINE#         11
+  C:0891H         LINE#         12
+  C:0894H         LINE#         13
+  C:0897H         LINE#         14
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/06/2023  15:29:30  PAGE 3
+
+
+  C:089AH         LINE#         15
+  C:089CH         LINE#         16
+  C:08A0H         LINE#         17
+  C:08A2H         LINE#         18
+  C:08A4H         LINE#         20
+  C:08A4H         LINE#         21
+  C:08A9H         LINE#         22
+  C:08ACH         LINE#         23
+  C:08B1H         LINE#         24
+  C:08B6H         LINE#         25
   -------         ENDPROC       MAIN
-  -------         PROC          C51_TMR0
-  C:08DCH         LINE#         36
-  C:08DCH         LINE#         37
-  C:08DEH         LINE#         38
-  -------         ENDPROC       C51_TMR0
-  -------         PROC          C51_INT1
-  C:08D4H         LINE#         40
-  C:08D4H         LINE#         41
-  C:08D7H         LINE#         42
-  -------         ENDPROC       C51_INT1
+  -------         PROC          SERIAL
+  C:08B8H         LINE#         28
+  C:08C1H         LINE#         29
+  C:08C4H         LINE#         30
+  C:08C6H         LINE#         31
+  C:08C9H         LINE#         32
+  C:08CBH         LINE#         33
+  C:08CEH         LINE#         34
+  C:08D0H         LINE#         35
+  C:08D7H         LINE#         36
+  C:08D9H         LINE#         37
+  C:08D9H         LINE#         39
+  -------         ENDPROC       SERIAL
   -------         ENDMOD        MAIN
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0067H BYTE ( 5%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 006CH BYTE ( 5%) *
 ******************************************************************************
 
-Program Size: data=10.0 xdata=0 code=232
+Program Size: data=16.0 xdata=0 code=237
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

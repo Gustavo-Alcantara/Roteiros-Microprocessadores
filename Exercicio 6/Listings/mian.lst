@@ -1,0 +1,62 @@
+C51 COMPILER V9.60.7.0   MIAN                                                              11/06/2023 17:07:28 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MIAN
+OBJECT MODULE PLACED IN .\Objects\mian.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE mian.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\mian
+                    -.lst) TABS(2) OBJECT(.\Objects\mian.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          void serial(void); // protótipo de função
+   4          unsigned char state = 0;
+   5          unsigned char mensagem;
+   6          unsigned char counter = 0;
+   7          unsigned char teste = 0;
+   8          
+   9          void main (void) {  
+  10   1        unsigned char aux = 0x41;
+  11   1      
+  12   1        SCON = 0xC0; // SCON: modo 1, 8-bit
+  13   1        TMOD |= 0x20; // TMOD: timer 1, modo 2
+  14   1        PCON |=0x80;
+  15   1        TH1 = 0xFD; // TH1: valor de recarga para 62,5 k baud; clk = 11,059 MHz
+  16   1        TR1 = 1; // TR1: dispara timer
+  17   1        ES = 1; EA = 1; // habilita interrupcao serial
+  18   1        REN = 1;
+  19   1        
+  20   1        while (1) {
+  21   2          while (state != 1); // aguarda interrupção serial
+  22   2          state = 0; // indica atendimento interrupcao serial
+  23   2        } // end of while
+  24   1        
+  25   1      } // end of main
+  26          void serial(void) interrupt 4 { // especifica tratador de interrupção serial (4)
+  27   1        if(RI){
+  28   2          RI = 0;
+  29   2          mensagem = SBUF;
+  30   2          teste = mensagem%2;
+  31   2          
+  32   2          if(P && teste) P1 = mensagem;
+  33   2          else counter++;
+  34   2          
+  35   2          P2 = counter;
+  36   2        }
+  37   1          
+  38   1      } // end of seria
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     67    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

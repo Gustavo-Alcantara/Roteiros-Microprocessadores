@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    10/20/2023  15:27:16  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    11/06/2023  17:07:28  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
@@ -22,34 +22,33 @@ LINK MAP OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0001H     UNIT         ?DT?MIAN
-            IDATA   0009H     0001H     UNIT         ?STACK
+            DATA    0008H     0004H     UNIT         ?DT?MIAN
+            DATA    000CH     0001H     UNIT         _DATA_GROUP_
+            IDATA   000DH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-                    0003H     0008H                  *** GAP ***
-            CODE    000BH     0003H     ABSOLUTE     
-                    000EH     07F2H                  *** GAP ***
+                    0003H     0020H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
             CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     002EH     UNIT         ?PR?MAIN?MIAN
-            CODE    08BAH     0009H     UNIT         ?PR?C51_TMR0?MIAN
-            CODE    08C3H     0004H     UNIT         ?C_INITSEG
-            CODE    08C7H     0001H     UNIT         ?CO?MIAN
+            CODE    088CH     0022H     UNIT         ?PR?SERIAL?MIAN
+            CODE    08AEH     0021H     UNIT         ?PR?MAIN?MIAN
+            CODE    08CFH     000AH     UNIT         ?C_INITSEG
 
 
 
 OVERLAY MAP OF MODULE:   .\Objects\exerc6 (?C_STARTUP)
 
 
-SEGMENT
-  +--> CALLED SEGMENT
----------------------
-?C_C51STARTUP
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
   +--> ?PR?MAIN?MIAN
   +--> ?C_INITSEG
 
-?PR?MAIN?MIAN
-  +--> ?CO?MIAN
+?PR?MAIN?MIAN                  000CH    0001H
 
 
 
@@ -59,11 +58,11 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  15:27:16  PAGE 2
-
-
   C:0800H         SEGMENT       ?C_C51STARTUP
-  I:0009H         SEGMENT       ?STACK
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/06/2023  17:07:28  PAGE 2
+
+
+  I:000DH         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
   D:00F0H         SYMBOL        B
@@ -98,46 +97,62 @@ SYMBOL TABLE OF MODULE:  .\Objects\exerc6 (?C_STARTUP)
   -------         MODULE        MIAN
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:088CH         PUBLIC        serial
+  D:0008H         PUBLIC        counter
   B:00A8H.7       PUBLIC        EA
-  D:0008H         PUBLIC        state
-  C:088CH         PUBLIC        main
-  C:08BAH         PUBLIC        c51_tmr0
+  B:00A8H.4       PUBLIC        ES
+  B:0098H.0       PUBLIC        RI
+  D:0009H         PUBLIC        state
+  C:08AEH         PUBLIC        main
+  D:000AH         PUBLIC        teste
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
-  B:00A8H.1       PUBLIC        ET0
-  D:008CH         PUBLIC        TH0
-  D:008AH         PUBLIC        TL0
-  B:0088H.4       PUBLIC        TR0
+  D:008DH         PUBLIC        TH1
+  B:00D0H.0       PUBLIC        P
+  D:000BH         PUBLIC        mensagem
+  B:0088H.6       PUBLIC        TR1
+  B:0098H.4       PUBLIC        REN
   -------         PROC          MAIN
   -------         DO            
-  C:08C7H         SYMBOL        mensagem
+  D:000CH         SYMBOL        aux
   -------         ENDDO         
-  C:088CH         LINE#         6
-  C:088CH         LINE#         9
-  C:088FH         LINE#         10
-  C:0892H         LINE#         11
-  C:0895H         LINE#         12
-  C:0897H         LINE#         13
-  C:0899H         LINE#         14
-  C:089BH         LINE#         16
-BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  10/20/2023  15:27:16  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  11/06/2023  17:07:28  PAGE 3
 
 
-  C:089BH         LINE#         17
-  C:08B0H         LINE#         18
-  C:08B8H         LINE#         19
+  C:08AEH         LINE#         9
+  C:08AEH         LINE#         10
+  C:08B1H         LINE#         12
+  C:08B4H         LINE#         13
+  C:08B7H         LINE#         14
+  C:08BAH         LINE#         15
+  C:08BDH         LINE#         16
+  C:08BFH         LINE#         17
+  C:08C3H         LINE#         18
+  C:08C5H         LINE#         20
+  C:08C5H         LINE#         21
+  C:08CAH         LINE#         22
+  C:08CDH         LINE#         23
   -------         ENDPROC       MAIN
-  -------         PROC          C51_TMR0
-  C:08BAH         LINE#         23
-  C:08BAH         LINE#         24
-  C:08BDH         LINE#         25
-  C:08C0H         LINE#         26
-  C:08C2H         LINE#         27
-  -------         ENDPROC       C51_TMR0
+  -------         PROC          SERIAL
+  C:088CH         LINE#         26
+  C:088EH         LINE#         27
+  C:0891H         LINE#         28
+  C:0893H         LINE#         29
+  C:0896H         LINE#         30
+  C:089CH         LINE#         32
+  C:08A6H         LINE#         33
+  C:08A8H         LINE#         35
+  C:08ABH         LINE#         36
+  C:08ABH         LINE#         38
+  -------         ENDPROC       SERIAL
   -------         ENDMOD        MIAN
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 004DH BYTE ( 3%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 005EH BYTE ( 4%) *
 ******************************************************************************
 
-Program Size: data=10.0 xdata=0 code=206
+Program Size: data=14.0 xdata=0 code=223
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

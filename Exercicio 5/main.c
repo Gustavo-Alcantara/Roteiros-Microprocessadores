@@ -1,56 +1,40 @@
 #include <reg51.h>
 
-void c51_tmr0 (void);
-void c51_tmr1 (void);
-void c51_int1 (void);
-
+void serial(void); // protótipo de função
 unsigned char state = 0;
+unsigned char k=0;
+unsigned char mensagem[10];
 
-void main (void) {
-	unsigned char code mensagem[]= "Microcontrolador";
-	unsigned char code *ponteiro;
-	unsigned char aux = 0;
-	
-	P2 = 0x00;
-	
-	ponteiro = mensagem;
-	TMOD = 0X02;
-	
-	TH0 = 0x5F;
-	TL0 = 0x5F;
-	
-	TH1 = 0xFC;
-	TL1 = 0x3F;
-	
-	ET0 = 1;
-	ET1 = 1;
-	
-	EX1 = 1;
-	IT1 = 1;
-	
-	EA = 1; // interrup??o habilitada
-	
-	TR0 = 1 ; // dispara timer
-	TR1 = 1;
+void main (void) {	
+	unsigned char aux = 0x41;
+
+	SCON = 0xC0; // SCON: modo 1, 8-bit
+	TMOD |= 0x20; // TMOD: timer 1, modo 2
+	PCON |=0x80;
+	TH1 = 0xFD; // TH1: valor de recarga para 62,5 k baud; clk = 11,059 MHz
+	TR1 = 1; // TR1: dispara timer
+	ES = 1; EA = 1; // habilita interrupcao serial
+	REN = 1;
+	SBUF = aux;
 	
 	while (1) {
-		while (state != 1);
-		state = 0;
-		P1 = *(ponteiro+aux++);
-		if (aux == 16) aux = 0;
+		while (state != 1); // aguarda interrupção serial
+		state = 0; // indica atendimento interrupcao serial
+		SBUF = aux++;
+		if (aux == 0x61) aux = 0x41;
 	} // end of while
 	
-} //end of main
-
-void c51_tmr0 (void) interrupt 1 {
-	state++;
-} //end of c51_tmr0
-
-void c51_int1 (void) interrupt 2{
-	TH0 = P2;
-}
-void c51_tmr1 (void) interrupt 3{
-	TH1 = 0xFC;
-	TL1 = 0x3F;
-	P2 = P2 ^ (1<<1);
-}
+} // end of main
+void serial(void) interrupt 4 { // especifica tratador de interrupção serial (4)
+	if (TI) { // testa se buffer de transmissão vazio
+		TI=0; // limpa flag
+		state = 1;
+	} // end of if
+	else if(RI){
+		RI = 0;
+		mensagem[k] = SBUF;
+		k++;
+		if(k==10) k=0;
+	}
+		
+} // end of seria
